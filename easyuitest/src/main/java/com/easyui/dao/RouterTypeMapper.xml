@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easyui.dao.RouterTypeDao">
+    <resultMap id="orgMap" type="com.easyui.pojo.RouterType">
+        <result property="orgName" column="org_name"></result>
+        <result property="type" column="type"></result>
+    </resultMap>
+
+    <select id="getOrgList" resultMap="orgMap">
+      select org_name,type from t_router_type where ISNULL(next_org);
+    </select>
+
+    <update id="updateNextOrg" parameterType="com.easyui.pojo.RouterType">
+      update t_router_type set next_org = #{nextOrg}  where org_name = #{orgName} and type = #{type};
+    </update>
+</mapper>

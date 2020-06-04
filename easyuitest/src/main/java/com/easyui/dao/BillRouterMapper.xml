@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.easyui.dao.BillRouterDao">
+    <resultMap id="billMap" type="com.easyui.pojo.BillRouter">
+        <result property="billCode" column="bill_code"></result>
+        <result property="routerName" column="router_Name"></result>
+    </resultMap>
+
+    <select id="getBillList" resultMap="billMap">
+      select bill_code,router_Name from t_bill_router limit 900000
+    </select>
+</mapper>
