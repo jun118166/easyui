@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<a class="easyui-linkbutton" onclick="myalert()">alert</a>
+<a class="easyui-linkbutton" onclick="myconfirm()">myconfirm</a>
+<a class="easyui-linkbutton" onclick="myprompt()">myprompt</a>
+<script>
+    function myalert() {
+        $.messager.alert("title","context",'error');
+    }
+    function myconfirm() {
+        $.messager.confirm("title","context",function (r) {
+            alert(r)
+        });
+    }
+    function myprompt() {
+        $.messager.prompt("title","context",function (r) {
+            alert(r)
+        });
+    }
+</script>
+</body>
+</html>

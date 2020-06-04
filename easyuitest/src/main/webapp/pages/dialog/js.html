@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<div id="js-dialog" style="width: 400px;height: 300px"></div>
+<script>
+    $(function () {
+        $('#js-dialog').dialog({
+            title: 'my dialog',
+            toolbar: [{
+                iconCls: 'icon-add', text: 'Add', handler: function () {
+                    alert('add')
+                }
+            }, '-', {
+                iconCls: 'icon-save', text: 'Save', handler: function () {
+                    alert('Save')
+                }
+            }],
+            buttons: [{
+                iconCls: 'icon-ok', text: 'Save', handler: function () {
+                    alert('save')
+                }
+            }, {
+                iconCls: 'icon-cancel', text: 'Cancel', handler: function () {
+                    alert('Cancel')
+                }
+            }],
+            href:'dynamic.html'
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+        <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+        <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+        <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    </head>
+    <body>
+        <input type="button" value="添加" onclick="addEast()">
+        <input type="button" value="删除" onclick="removeEast()">
+        <input type="button" value="展开" onclick="expandNorth()">
+        <input type="button" value="收起" onclick="collapseNorth()">
+        <div id="js-layout" class="easyui-layout" style="height: 300px;width: 60%">
+            <div data-options="region:'north',split:true" style="height: 50px">north</div>
+            <div data-options="region:'south',split:true" style="height: 50px">south</div>
+            <div data-options="region:'west',title:'East',split:true" style="width: 100px">west</div>
+            <div data-options="region:'center',title:'center',split:true,href:'dynamic.html',tools:[{iconCls:'icon-add',handler:function(){alert('aaa')}}],footer:'#page'">
+                内容
+            </div>
+        </div>
+        <div id="page" class="easyui-pagination"
+             data-options="total:100,pageList:[10,25,50,100],buttons:[{iconCls:'icon-add',handler:function(){alert('dd')}}]"></div>
+        <script>
+            function addEast() {
+                var options = {
+                    region: 'east',
+                    width: '100',
+                    title: 'new east'
+                }
+
+                $('#js-layout').layout('add', options);
+            }
+
+            function removeEast() {
+                $('#js-layout').layout('remove', 'east');
+            }
+
+            function expandNorth() {
+                $('#js-layout').layout('expand', 'south');
+            }
+
+            function collapseNorth() {
+                $('#js-layout').layout('collapse', 'south');
+            }
+
+            $(function () {
+                $('#page').pagination({
+                    onSelectPage: function (pageNo, pagesize) {
+                        $(this).pagination('loading');
+                        alert('pageNo:' + pageNo + ',pageSize:' + pagesize);
+                        $(this).pagination('loaded');
+                        $('#js-layout').layout('panel', 'center').panel('refresh', 'dynamic2.html')
+                    }
+                })
+            })
+        </script>
+    </body>
+</html>

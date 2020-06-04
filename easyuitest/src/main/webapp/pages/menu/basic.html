@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+        <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+        <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+        <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    </head>
+    <body>
+        <div id="mm" class="easyui-menu" style="width: 120px;" data-options="onClick:menuHandler">
+            <div data-options="iconCls:'icon-add',name:'new'">New</div>
+            <div data-options="iconCls:'icon-save',name:'save'">Save</div>
+            <div data-options="name:'exit'">Exit</div>
+        </div>
+        <script>
+            function menuHandler(item) {
+                alert(item.name);
+            }
+
+            $(function () {
+                $(document).bind('contextmenu', function (e) {
+                    e.preventDefault();
+                    $('#mm').menu('show', {
+                        left: e.pageX,
+                        top: e.pageY
+                    });
+                })
+            })
+        </script>
+    </body>
+</html>

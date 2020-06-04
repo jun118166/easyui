@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<form id="ff" action="/form.json" method="post">
+    Name:<input class="easyui-textbox" name="name" data-options="required:true">
+    Birthday:<input class="easyui-datebox" name="birthday">
+    language:<select class="easyui-combobox" style="width: 100px" name="lang">
+    <option value="java">java</option>
+    <option value="php">php</option>
+    <option value="c">c</option>
+</select>
+</form>
+<a href="#" class="easyui-linkbutton" onclick="submitForm()">提交</a>
+<a href="#" class="easyui-linkbutton" onclick="$('#ff').form('clear')">清空</a>
+<a href="#" class="easyui-linkbutton" onclick="$('#ff').form('reset')">重置</a>
+<script>
+    $(function () {
+        $("#ff").form("load", {
+            name: 'name1',
+            birthday: '03/4/2020',
+            lang: 'c'
+        })
+    })
+
+    function submitForm() {
+        if ($("#ff").form("enableValidation").form("validate")) {
+            $("#ff").submit();
+        }
+
+        // $("#ff").form("submit", {
+        //     onSubmit: function () {
+        //         alert("提交了");
+        //         return true;
+        //     }
+        // });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.easyui.dao.BookDao">
+    <resultMap id="bookMap" type="com.easyui.pojo.Book">
+        <id property="id" column="id"></id>
+        <result property="author" column="author"></result>
+        <result property="cover" column="cover"></result>
+        <result property="name" column="name"></result>
+        <result property="price" column="price"></result>
+        <result property="publishDate" column="publish_date"></result>
+        <result property="summary" column="summary"></result>
+        <result property="category.id" column="category_id"></result>
+        <result property="category.name" column="category_name"></result>
+    </resultMap>
+
+    <select id="getBookList" parameterType="com.easyui.pojo.Book" resultMap="bookMap">
+        SELECT
+        t.id,
+        t.author,
+        a.`name` category_name,
+        t.`name`,
+        t.cover,
+        t.price,
+        t.publish_date,
+        t.category_id,
+        t.summary
+        FROM
+        t_book t
+        JOIN t_category a ON t.category_id = a.id
+        <where>
+            <if test="id != null">and t.id = #{id}</if>
+            <if test="category != null and category.id!=null">and t.category_id = #{category.id}</if>
+            <if test="name != null and name != ''">and t.name like concat('%',#{name},'%')</if>
+        </where>
+    </select>
+
+    <select id="getBookById" parameterType="int" resultMap="bookMap">
+      SELECT
+        t.id,
+        t.author,
+        t.`name`,
+        t.cover,
+        t.price,
+        t.publish_date,
+        t.category_id,
+        t.summary
+        FROM
+        t_book t
+        WHERE t.id = #{id}
+    </select>
+</mapper>

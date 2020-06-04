@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+    <!--<input type="text"/>-->
+    <input type="button" value="取值" onclick="alert($('#tt').textbox('getValue'))"/>
+    <input type="button" value="赋值" onclick="$('#tt').textbox('setValue','123')"/>
+    <input type="text" class="easyui-textbox" data-options="prompt:'please input username',validType:'email'" style="width: 10%"/>
+    <input type="text" class="easyui-textbox" data-options="multiline:true" id="tt"/>
+    <input type="text" class="easyui-textbox" data-options="icons:[{
+    iconCls:'icon-add',handler:function(e){
+        alert('add')
+    }
+    },
+    {
+    iconCls:'icon-remove',handler:function(e){
+        alert('remove')
+    }
+    }
+    ]" style="width: 400px"/>
+    <input class="easyui-textbox" data-options="iconCls:'icon-man',iconWidth:38,prompt:'username'"/>
+<script>
+
+</script>
+</body>
+</html>

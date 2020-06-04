@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<input type="button" value="取值" onclick="alert($('#dt1').datetimebox('getValue'))">
+<input type="button" value="取值" onclick="alert($('#dt').datetimebox('getValue'))">
+<input type="text" id="dt1" class="easyui-datetimebox" style="width: 200px" data-options="showSeconds:false"/>
+<input id="dt" type="text" style="width: 200px"/>
+<script>
+    $(function () {
+        $("#dt").datetimebox({
+            value: "2020-3-20 16:58:20",
+            formatter: function (date) {
+                return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            },
+            parser: function (s) {
+                if (!s) return new Date();
+                var arr = s.split(" ");
+                var ss = arr[0].split("-");
+                var y = parseInt(ss[0], 10);
+                var m = parseInt(ss[1], 10);
+                var d = parseInt(ss[2], 10);
+                var ss2 = arr[1].split(":");
+                var h = parseInt(ss2[0], 10);
+                var min = parseInt(ss2[1], 10);
+                var s = parseInt(ss2[2], 10);
+                if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+                    return new Date(y, m - 1, d, h, min, s);
+                } else {
+                    return new Date();
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

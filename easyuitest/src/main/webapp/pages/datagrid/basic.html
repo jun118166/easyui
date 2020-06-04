@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<table class="easyui-datagrid" data-options="url:'/category.json',method:'post',toolbar:'#tb'" style="width: 400px">
+    <thead>
+    <tr>
+        <th field="ck" checkbox="true"></th>
+        <th field="id">ID</th>
+        <th field="name">分类</th>
+    </tr>
+    </thead>
+</table>
+
+<table style="width: 400px" class="easyui-datagrid" data-options="url:'/category.json',method:'post',toolbar:[{
+    text:'Add',iconCls:'icon-add',handler:function(){
+        alert('add');
+    }
+},'-',{
+    text:'Remove',iconCls:'icon-remove',handler:function(){
+        alert('Remove');
+    }
+}]">
+    <thead>
+    <tr>
+        <th field="id">ID</th>
+        <th field="name">分类</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">Add</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cut',plain:true">Cut</a>
+</div>
+<table id="tt" style="width: 400px;"></table>
+<table id="dg2" style="width: 400px"></table>
+<table id="dg3" style="width: 400px">
+    <thead>
+    <tr>
+        <th field="f1">第一列</th>
+        <th field="f2">第二列</th>
+    </tr>
+    </thead>
+</table>
+<script>
+    $(function () {
+        $("#dg2").datagrid({
+            data:[
+                {f1:'value11',f2:'value12'},
+                {f1:'value21',f2:'value22'}
+                ],
+            columns:[[
+                {field:'f1',title:'第一列'},
+                {field:'f2',title:'第二列'}
+            ]]
+        });
+        $("#dg3").datagrid({
+            data:[
+                {f1:'value11',f2:'value12'},
+                {f1:'value21',f2:'value22'}
+                ]
+        });
+
+        $("#tt").datagrid({
+            url: '/category.json',
+            loadMsg: '正在加载，请稍后！！！',
+            striped: true,
+            rownumbers: true,
+            singleSelect: true,
+            toolbar: '#tb',
+            method: 'post',
+            columns: [[
+                {field: 'id', title: 'id', sortable: true},
+                {
+                    field: 'name', title: '分类', formatter: function (value, row, index) {
+                        return value + '<span style="color: red">[' + row.id + ']</span>';
+                    }
+                }]]
+        });
+    })
+</script>
+<!--<table style="width: 400px" class="easyui-datagrid">-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<th field="name1">col1</th>-->
+<!--<th field="name2">col2</th>-->
+<!--<th field="name3">col3</th>-->
+<!--<th field="name4">col4</th>-->
+<!--<th field="name5">col5</th>-->
+<!--<th field="name6">col6</th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--<table style="width: 400px" class="easyui-datagrid">-->
+<!--<thead>-->
+<!--<tr>-->
+<!--<th field="name1" rowspan="2">col1</th>-->
+<!--<th field="name2" rowspan="2">col2</th>-->
+<!--<th field="name3" rowspan="2">col3</th>-->
+<!--<th colspan="3">col6</th>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<th field="name4">col1</th>-->
+<!--<th field="name5">col2</th>-->
+<!--<th field="name6">col3</th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>data 1</td>-->
+<!--<td>data 2</td>-->
+<!--<td>data 3</td>-->
+<!--<td>data 4</td>-->
+<!--<td>data 5</td>-->
+<!--<td>data 6</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+</body>
+</html>

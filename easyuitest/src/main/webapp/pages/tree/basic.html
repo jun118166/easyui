@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<ul class="easyui-tree" data-options="animate:true,lines:true">
+    <li>菜单1</li>
+    <li>菜单2</li>
+    <li>
+        <span> 菜单3 </span>
+        <ul>
+            <li>菜单1</li>
+            <li>菜单2</li>
+            <li>菜单3</li>
+        </ul>
+    </li>
+</ul>
+<ul id="tree2">
+</ul>
+
+<div id="mm" class="easyui-menu" style="width:120px;">
+    <div onclick="append()" data-options="iconCls:'icon-add'">追加</div>
+    <div onclick="insert()" data-options="iconCls:'icon-insert'">插入</div>
+    <div onclick="remove()" data-options="iconCls:'icon-remove'">移除</div>
+</div>
+
+<input type="button" value="全选中" onclick="alertNodes($('#tree2').tree('getChecked'))"/>
+<input type="button" value="半选中" onclick="alertNodes($('#tree2').tree('getChecked','indeterminate'))"/>
+<input type="button" value="全选和半选中" onclick="alertNodes($('#tree2').tree('getChecked',['unchecked','indeterminate']))"/>
+<input type="button" value="未选中" onclick="alertNodes($('#tree2').tree('getChecked','unchecked'))"/>
+
+<script>
+
+    function alertNodes(nodes) {
+        var texts = new Array();
+        $(nodes).each(function (i, node) {
+            texts[i] = node['text'];
+        })
+        alert(texts.join(','));
+    }
+
+    $(function () {
+        $('#tree2').tree({
+            // cascadeCheck:false,
+            onlyLeafCheck: false,
+            checkbox: true,
+            // data: [{
+            //     id: 23,
+            //     text: 'node23'
+            // }, {
+            //     text: 'node24',
+            //     state: 'closed',
+            //     children: [{
+            //         text: 'node241'
+            //     }, {
+            //         text: 'node242'
+            //     }]
+            // }],
+            url: "data.json",
+            method: "post",
+            formatter: function (node) {
+                return '[' + node.text + ']';
+            },
+            loadFilter: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].text == 'node23') {
+                        data[i].iconCls = 'icon-add';
+                    }
+                }
+                return data;
+            },
+            onClick: function (node) {
+                $(this).tree('beginEdit', node.target);
+            },
+            onAfterEdit: function (node) {
+                // alert(node.text);
+            },
+            onContextMenu: function (e, node) {
+                e.preventDefault();
+                // 查找节点
+                $('#tree2').tree('select', node.target);
+                // 显示快捷菜单
+                $('#mm').menu('show', {
+                    left: e.pageX,
+                    top: e.pageY
+                });
+            },
+            dnd: true,
+            onDrop: function (target, source, point) {
+                alert(source.text);
+                alert($(this).tree('getNode', target).text);
+
+            }
+        })
+    })
+
+    var id = 0;
+
+    function append() {
+        var selected = $('#tree2').tree('getSelected');
+        var node = {
+            parent: selected.target,
+            data: [{
+                text: '',
+                id: ++id,
+            }]
+        }
+        $('#tree2').tree('append', node);
+        node = $('#tree2').tree('find', id);
+        $(this).tree('beginEdit', node.target);
+    }
+
+    function insert() {
+        var selected = $('#tree2').tree('getSelected');
+        var node = {
+            id: ++id,
+            text: ''
+        }
+        $('#tree2').tree('insert', {
+            after: selected.target,
+            data: node
+        });
+        node = $('#tree2').tree('find', id);
+        $(this).tree('beginEdit', node.target);
+    }
+
+    function remove() {
+        var selected = $('#tree2').tree('getSelected');
+        var node = {
+            id: ++id,
+            text: ''
+        }
+        $('#tree2').tree('remove', selected.target);
+    }
+</script>
+</body>
+</html>

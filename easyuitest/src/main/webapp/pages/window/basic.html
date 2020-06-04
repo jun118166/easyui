@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<input type="button" value="open" onclick="$('#w').window('open')">
+<input type="button" value="close" onclick="$('#w').window('close')">
+<div class="easyui-panel" style="width: 600px;height: 600px;overflow: hidden; position: relative">
+    <div id="w" class="easyui-window" title="my window" style="width: 400px;height: 300px;"
+         data-options="collapsible:false,inline:true">
+        this is my window
+    </div>
+</div>
+<div class="easyui-window" style="width: 400px;height: 300px" data-options="iconCls:'icon-save',tools:'#tool',href:'dynamic.html'">
+
+</div>
+<div id="tool">
+    <a href="#" class="icon-add" onclick="alert('add')"></a>
+    <a href="#" class="icon-edit" onclick="alert('edid')"></a>
+    <a href="#" class="icon-help" onclick="alert('help')"></a>
+</div>
+<script>
+</script>
+</body>
+</html>

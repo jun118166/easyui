@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<table id="dg" class="easyui-datagrid" style="width: 900px;height: 400px"></table>
+<div id="tb">
+    id：<input type="text" class="easyui-numberbox" id="search-id"/>
+    书名：<input type="text" class="easyui-textbox" id="search-name"/>
+    分类：<input type="text" class="easyui-combobox" style="width: 100px" id="search-category" url="/category.json"
+              valueField="id"
+              textField="name"/>
+    <a class="easyui-linkbutton" id="search-btn">搜索</a>
+</div>
+<script>
+    $(function () {
+        $("#search-btn").click(function () {
+            var queryParams = $("#dg").datagrid("options").queryParams;
+            queryParams.id = $("#search-id").numberbox("getValue");
+            queryParams.name = $("#search-name").textbox("getValue");
+            queryParams["category.id"] = $("#search-category").combobox("getValue");
+            $("#dg").datagrid("load");
+        });
+
+        $("#dg").datagrid({
+            title: "图书列表",
+            url: "/book_list.json",
+            method: "post",
+            toolbar: "#tb",
+            pagination: true,
+            pageSize: 5,
+            pageList: [5, 10, 15, 20],
+            frozenColumns: [[{field: "id", title: "id", width: 50, align: "center"}]],
+            columns: [[
+                {field: "name", title: "书名", width: 200, align: "center"},
+                {
+                    field: "cover", title: "图片", width: 100, align: "center", formatter: function (value, row, index) {
+                        return '<img src="' +
+                            value + '"/>'
+                    }
+                },
+                {field: "publishDate", title: "出版日期", width: 100, align: "center"},
+                {field: "price", title: "价格", width: 100, align: "center"},
+                {
+                    field: "category",
+                    title: "类别",
+                    width: 100,
+                    align: "center",
+                    formatter: function (value, row, index) {
+                        return value.name;
+                    }
+                },
+                {field: "summary", title: "简介", width: 300, align: "center"}
+            ]],
+            onLoadSuccess: function () {
+                $(this).datagrid("freezeRow", 0);
+            }
+        });
+    })
+</script>
+</body>
+</html>

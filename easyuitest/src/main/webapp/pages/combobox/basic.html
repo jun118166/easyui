@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<select class="easyui-combobox" data-options="multiple:true,multiline:true" style="width: 100px;height: 50px;">
+    <option value="1">java</option>
+    <option value="1">php</option>
+    <option value="1">java</option>
+</select><br>
+<input id="group"/>
+<input id="group2" class="easyui-combobox"/><input type="button" value="加载" onclick="loadCombobox()">
+<input class="easyui-combobox"
+       data-options="url:'/combobox.json',method:'POST',valueField:'id',textField:'name',formatter:formatItem,panelWidth:350">
+
+<input class="easyui-combobox"
+       data-options="loader:myloader,mode:'remote',valueField:'id',textField:'name',formatter:formatItem,panelWidth:350">
+<script>
+    var myloader = function (param, success, error) {
+        $.ajax({
+            url: 'http://nos.uce.cn:9029/combobox.json',
+            dataType: 'jsonp',
+            success: function (data) {
+                success(data);
+            },
+            error: function () {
+                error.apply(this, arguments);
+            }
+        })
+    }
+
+    function formatItem(row) {
+        return '<span style="color: #00ee00">' + row.name + "[" + row.id + "]" + '</span>';
+    }
+
+    $(function () {
+        var data = [{
+            "value": "1",
+            "text": "firefox 2.0",
+            "group": "firefox"
+        }, {
+            "value": "2",
+            "text": "firefox 1.5",
+            "group": "firefox"
+        }, {
+            "value": "3",
+            "text": "IE 6.0",
+            "group": "IE"
+        }, {
+            "value": "4",
+            "text": "IE 7.0",
+            "group": "IE"
+        }];
+
+        $("#group").combobox({
+            data: data,
+            groupField: "group",
+            icons: [{
+                iconCls: 'icon-add', handler: function () {
+                    alert("add")
+                }
+            }, {
+                iconCls: "icon-remove", handler: function () {
+                    alert("remove")
+                }
+            }]
+        })
+    })
+
+    function loadCombobox() {
+        $("#group2").combobox("loadData", [{
+            "value": "1",
+            "text": "firefox 2.0",
+            "group": "firefox"
+        }, {
+            "value": "2",
+            "text": "firefox 1.5",
+            "group": "firefox"
+        }, {
+            "value": "3",
+            "text": "IE 6.0",
+            "group": "IE"
+        }, {
+            "value": "4",
+            "text": "IE 7.0",
+            "group": "IE"
+        }])
+    }
+</script>
+</body>
+</html>

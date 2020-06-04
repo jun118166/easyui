@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<input type="text" id="tabName">
+<input type="button" value="添加" onclick="addTab()">
+<input type="button" value="删除" onclick="removeTab()">
+<div id="js-tab"></div>
+<script>
+    $(function () {
+        $('#js-tab').tabs();
+    })
+
+    function addTab() {
+        var name = $('#tabName').val();
+        if ($('#js-tab').tabs('exists', name)) {
+            $('#js-tab').tabs('select', name);
+        } else {
+            $('#js-tab').tabs('add', {
+                title: name,
+                selected: true,
+                closable: true
+            })
+        }
+    }
+
+    function removeTab() {
+        var name = $('#tabName').val();
+        if ($('#js-tab').tabs('exists', name)) {
+            $('#js-tab').tabs('close', name);
+        }
+    }
+</script>
+</body>
+</html>

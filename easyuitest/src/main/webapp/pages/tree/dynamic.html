@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css"/>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css"/>
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<input type="button" value="删除" onclick="del()">
+<div id="tree2"></div>
+<div id="mm" class="easyui-menu" style="width:120px;">
+    <div onclick="append()" data-options="iconCls:'icon-add'">追加</div>
+    <div onclick="insert()" data-options="iconCls:'icon-back'">插入</div>
+    <div onclick="remove()" data-options="iconCls:'icon-remove'">移除</div>
+</div>
+<script>
+    function del() {
+        var nodes = $('#tree2').tree('getChecked');
+        var ids = new Array();
+        for (var i = 0; i < nodes.length; i++) {
+            ids[i] = nodes[i].id;
+        }
+        $.ajax({
+            url: '/batch_delete_tree.json',
+            method: 'post',
+            data: {ids: ids.join(',')},
+            success: function (data) {
+                if (data.status == "true") {
+                    $('#tree2').tree("reload");
+                }
+            }
+        });
+    }
+
+    $(function () {
+        $("#tree2").tree({
+            cascadeCheck: false,
+            checkbox: true,
+            url: '/tree.json',
+            method: "post",
+            formatter: function (node) {
+                return node.text;
+            },
+            onClick: function (node) {
+                $(this).tree('beginEdit', node.target);
+            },
+            onAfterEdit: function (node) {
+                editNode(node.id, node.text, node.parentId);
+            },
+            onContextMenu: function (e, node) {
+                e.preventDefault();
+                // 查找节点
+                $('#tree2').tree('select', node.target);
+                // 显示快捷菜单
+                $('#mm').menu('show', {
+                    left: e.pageX,
+                    top: e.pageY
+                });
+            },
+            dnd: true,
+            onDrop: function (target, source, point) {
+                editNode(source.id, source.text, $(this).tree('getNode', target).id);
+            }
+        });
+    });
+
+    function editNode(id, text, parentId) {
+        $.ajax({
+            url: '/edit_tree.json',
+            method: 'post',
+            data: {id: id, text: text, parentId: parentId},
+            success: function (data) {
+                if (data.status == "true") {
+                    $('#tree2').tree("reload");
+                }
+            }
+        });
+    }
+
+    var id = 0;
+
+    function append() {
+        var selected = $('#tree2').tree('getSelected');
+        var node = {
+            parent: selected.target,
+            data: [{
+                text: '',
+                id: id,
+                parentId: $('#tree2').tree('getNode', selected.target).id
+            }]
+        }
+        $('#tree2').tree('append', node);
+        node = $('#tree2').tree('find', id);
+        $("#tree2").tree('beginEdit', node.target);
+    }
+
+    function insert() {
+        var selected = $('#tree2').tree('getSelected');
+        var node = {
+            id: id,
+            text: '',
+            parentId: $('#tree2').tree('getNode', selected.target).parentId
+        }
+        $('#tree2').tree('insert', {
+            after: selected.target,
+            data: node
+        });
+        node = $('#tree2').tree('find', id);
+        $('#tree2').tree('beginEdit', node.target);
+    }
+
+    function remove() {
+        var selected = $('#tree2').tree('getSelected');
+        $.ajax({
+            url: '/delete_tree.json',
+            method: 'post',
+            data: {id: selected.id},
+            success: function (data) {
+                if (data.status == "true") {
+                    $('#tree2').tree('remove', selected.target);
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
